@@ -12,6 +12,7 @@ local function object(name)
  function o:GetHeight() return self.height end
  function o:SetWidth(v) self.width=v end
  function o:SetHeight(v) self.height=v end
+ function o:SetFrameStrata(value) self.strata=value end
  function o:GetFrameLevel() return self.level end
  function o:SetFrameLevel(v) self.level=v end
  function o:GetAlpha() return self.alpha end
@@ -59,6 +60,7 @@ end
 assert(loadfile('IconBox/IconBox.lua') or loadfile('IconBox.lua'))('IconBox',{})
 frames[1].scripts.OnEvent(frames[1],'PLAYER_LOGIN')
 assert(#categories==1 and categories[1].name=='IconBox')
+assert(IconBoxLauncher.strata=='MEDIUM','launcher must stay above minimap pins')
 assert(SLASH_ICONBOX1==nil and SlashCmdList.ICONBOX==nil)
 local shift=false
 function IsShiftKeyDown() return shift end
