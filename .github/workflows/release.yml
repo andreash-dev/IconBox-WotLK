@@ -4,6 +4,7 @@ on:
   push:
     branches: [main]
     paths:
+      - docs/releases/*.md
       - IconBox.toc
       - .github/workflows/release.yml
   workflow_dispatch:
@@ -29,17 +30,26 @@ jobs:
           version=$(sed -n 's/^## Version: //p' IconBox.toc | tr -d '\r')
           [[ "$version" =~ ^[0-9]+\.[0-9]+\.[0-9]+$ ]]
           tag="v$version"
-          if gh release view "$tag" >/dev/null 2>&1; then
-            echo "Release $tag already exists; leaving it unchanged."
-            exit 0
-          fi
+          existing=false
+          if gh release view "$tag" >/dev/null 2>&1; then existing=true; fi
           mkdir -p package/IconBox/Textures
-          cp IconBox.lua IconBox.toc package/IconBox/
-          cp Textures/IconBox.tga package/IconBox/Textures/
+          if "$existing"; then
+            # Documentation corrections retain the original release's runtime files.
+            git fetch --depth=1 origin "refs/tags/$tag:refs/tags/$tag"
+            git archive "$tag" IconBox.lua IconBox.toc Textures/IconBox.tga | tar -x -C package/IconBox
+          else
+            cp IconBox.lua IconBox.toc package/IconBox/
+            cp Textures/IconBox.tga package/IconBox/Textures/
+          fi
           printf 'Extract IconBox into World of Warcraft/Interface/AddOns/.\nRestart WoW and enable IconBox.\nSettings: Shift + right-click the minimap button, or Esc > Interface > AddOns > IconBox.\n' > package/IconBox/README.txt
           cp "docs/releases/$version.md" package/IconBox/CHANGELOG.txt
           (cd package && zip -X -r "../IconBox-$version.zip" IconBox)
           unzip -t "IconBox-$version.zip"
-          gh release create "$tag" "IconBox-$version.zip" \
-            --target "$GITHUB_SHA" --title "IconBox $version" \
-            --notes-file "docs/releases/$version.md" --latest
+          if "$existing"; then
+            gh release edit "$tag" --notes-file "docs/releases/$version.md"
+            gh release upload "$tag" "IconBox-$version.zip" --clobber
+          else
+            gh release create "$tag" "IconBox-$version.zip" \
+              --target "$GITHUB_SHA" --title "IconBox $version" \
+              --notes-file "docs/releases/$version.md" --latest
+          fi
