@@ -6,7 +6,7 @@
 
 A minimap button collector for **WoW 3.3.5a (WotLK)**. Gather your addon buttons into one compact box and choose which icons stay at the minimap.
 
-[**Download the latest version**](https://github.com/andreash-dev/IconBox-WotLK/archive/refs/heads/main.zip)
+[**Download the latest version**](https://github.com/andreash-dev/IconBox-WotLK/releases/latest)
 
 - **Choose which icons to collect** with individual checkboxes.
 - **Adjust the layout:** 1–10 columns, open left or down, and precise X/Y offsets.
@@ -53,8 +53,8 @@ A minimap button collector for **WoW 3.3.5a (WotLK)**. Gather your addon buttons
 
 ## Installation
 
-1. Download the ZIP using the link above and extract it. Rename `IconBox-WotLK-main` to **`IconBox`**.
-2. Place the `IconBox` folder in `World of Warcraft/Interface/AddOns/`.
+1. Download **IconBox-1.0.0.zip** from [Releases](https://github.com/andreash-dev/IconBox-WotLK/releases/latest).
+2. Extract the `IconBox` folder into `World of Warcraft/Interface/AddOns/`.
 3. Restart WoW and enable IconBox in the AddOns list.
 
 When updating, replace the existing `IconBox` folder. Your saved settings are retained.
