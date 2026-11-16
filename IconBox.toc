@@ -1,0 +1,8 @@
+## Interface: 30300
+## Title: IconBox
+## Notes: A compact home for your minimap addon buttons.
+## Author: Nisho
+## Version: 0.3.0
+## OptionalDeps: ElvUI, ElvUI_Enhanced
+## SavedVariables: IconBoxDB
+IconBox.lua
